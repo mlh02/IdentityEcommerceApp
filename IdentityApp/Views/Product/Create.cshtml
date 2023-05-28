@@ -1,0 +1,28 @@
+﻿@model Product
+
+<form asp-controller="Product" asp-action="Create">
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Price</label>
+      <input type="text" class="form-control" placeholder="Price" asp-for="Price">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4">Name</label>
+      <input type="text" class="form-control" placeholder="Name" asp-for="Name">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputAddress2">Picture</label>
+    <input type="text" class="form-control" placeholder="Picture" asp-for="Picture">
+  </div>
+  <div class="form-group">
+    <label for="inputAddress2">Stock</label>
+    <input type="text" class="form-control" placeholder="Stock" asp-for="Stock">
+  </div>
+  <div class="form-group">
+    <label for="inputAddress2">CompanyID</label>
+    <input type="text" class="form-control" placeholder="CompanyID" asp-for="CompanyID">
+  </div>
+  <button type="submit" class="btn btn-primary">Create Product</button>
+</form>
