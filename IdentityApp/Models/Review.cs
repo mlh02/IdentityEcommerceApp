@@ -11,6 +11,7 @@ namespace IdentityEcommerce.Models
         public virtual int UserID { get; set; }
         public string Body { get; set; }
 
+
         [ForeignKey("Products")]
         public int ProductID { get; set; }
         public int Rating { get; set; }
