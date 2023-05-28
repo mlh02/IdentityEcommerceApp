@@ -23,6 +23,7 @@ namespace IdentityEcommerce.Services
         public bool Create(Transaction transaction, AppUser user)
         {
             user.MyRewardPoints += transaction.CurrentProduct.RewardPoints;
+            transaction.UserId = user.Id.ToString();
             bool createdTransaction = _transactionRepos.Create(transaction);
             return createdTransaction;
         }
