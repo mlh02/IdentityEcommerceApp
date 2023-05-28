@@ -35,7 +35,7 @@ namespace IdentityEcommerce.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> BuyAction(Transaction transaction)
+        public  IActionResult Create(Transaction transaction)
         {
             var user = GetCurrentUser();
             bool createdTransaction = _transactionService.Create(transaction, user);
