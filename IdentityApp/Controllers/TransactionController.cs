@@ -1,5 +1,7 @@
-﻿using IdentityEcommerce.Models;
+﻿using IdentityEcommerce.Helpers.User;
+using IdentityEcommerce.Models;
 using IdentityEcommerce.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -37,13 +39,21 @@ namespace IdentityEcommerce.Controllers
         [HttpPost]
         public async Task<IActionResult> BuyAction(Transaction transaction)
         {
-            var user = GetCurrentUser();
-            bool createdTransaction = _transactionService.Create(transaction, user);
+            await UpdateCurrentUser(transaction);
+            bool createdTransaction = _transactionService.Create(transaction);
             if (createdTransaction)
             {
                 return RedirectToAction("Index");
             }
             return View(transaction);
+        }
+
+        public async Task UpdateCurrentUser(Transaction transaction)
+        {
+            var rewardPoints = transaction.CurrentProduct.RewardPoints;
+            var user = GetCurrentUser();
+            user.MyRewardPoints += rewardPoints;
+            await _userManager.UpdateAsync(user);
         }
 
         public AppUser GetCurrentUser()
@@ -52,6 +62,7 @@ namespace IdentityEcommerce.Controllers
             var user = _userManager.FindByIdAsync(userID).Result;
             return user;
         }
+
 
     }
 }
