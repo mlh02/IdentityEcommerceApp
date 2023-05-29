@@ -45,5 +45,11 @@ namespace IdentityEcommerce.Models.Repositories
             var reviews = _context.Reviews.Where(x => x.ProductID == productID).ToList();
             return reviews;
         }
+
+        public List<Category> GetAllCategories()
+        {
+            var categories = _context.Categories.ToList();
+            return categories;
+        }
     }
 }
