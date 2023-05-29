@@ -32,6 +32,5 @@ namespace IdentityEcommerce.Services
             var allTransactions = _transactionRepos.GetAllTransactions();
             return allTransactions;
         }
-
     }
 }

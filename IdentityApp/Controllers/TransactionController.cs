@@ -52,6 +52,5 @@ namespace IdentityEcommerce.Controllers
             var user = _userManager.FindByIdAsync(userID).Result;
             return user;
         }
-
     }
 }
