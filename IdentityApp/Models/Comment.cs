@@ -6,6 +6,8 @@ namespace IdentityEcommerce.Models
     public class Comment
     {
         // Properties
+        [Key]
+        public int ID { get; set; }
         [Required]
         [MaxLength(32)]
         public string Body { get; set; }

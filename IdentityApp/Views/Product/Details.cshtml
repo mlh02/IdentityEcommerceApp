@@ -38,6 +38,7 @@
             <tr>
                 <td>@review.Body</td>
                 <td>@review.Rating</td>
+                <td> <a class="btn btn-secondary" asp-action="Create" asp-controller="Comment" asp-route-productID="@review.ProductID" asp-route-reviewID="@review.ID">Comment</a></td>
             </tr>
         }
     }
