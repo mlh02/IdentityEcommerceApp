@@ -1,4 +1,5 @@
-﻿using IdentityEcommerce.Helpers.Enums;
+﻿using IdentityApp.Models.ViewModels;
+using IdentityEcommerce.Helpers.Enums;
 using IdentityEcommerce.Models;
 using IdentityEcommerce.Models.Repositories;
 using IdentityEcommerce.Models.ViewModels;
@@ -33,8 +34,9 @@ namespace IdentityEcommerce.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-
-            return View();
+            var pcvm = new ProductAndCategoryViewModel();
+            pcvm.Categories = _productService.GetAllCategories();
+            return View(pcvm);
         }
 
         [HttpPost]

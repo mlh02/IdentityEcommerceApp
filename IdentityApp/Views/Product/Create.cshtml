@@ -1,28 +1,33 @@
-﻿@model Product
+﻿@using IdentityApp.Models.ViewModels;
+@model ProductAndCategoryViewModel
 
 <form asp-controller="Product" asp-action="Create">
 
   <div class="form-row">
+    <select asp-for="Product.CategoryID"
+            asp-items="@(new SelectList(Model.Categories, nameof(Category.ID), nameof(Category.Name)))">
+      <option>Please select one</option>
+    </select>
     <div class="form-group col-md-6">
       <label for="inputEmail4">Price</label>
-      <input type="text" class="form-control" placeholder="Price" asp-for="Price">
+      <input type="text" class="form-control" placeholder="Price" asp-for="Product.Price">
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">Name</label>
-      <input type="text" class="form-control" placeholder="Name" asp-for="Name">
+      <input type="text" class="form-control" placeholder="Name" asp-for="Product.Name">
     </div>
   </div>
   <div class="form-group">
     <label for="inputAddress2">Picture</label>
-    <input type="text" class="form-control" placeholder="Picture" asp-for="Picture">
+    <input type="text" class="form-control" placeholder="Picture" asp-for="Product.Picture">
   </div>
   <div class="form-group">
     <label for="inputAddress2">Stock</label>
-    <input type="text" class="form-control" placeholder="Stock" asp-for="Stock">
+    <input type="text" class="form-control" placeholder="Stock" asp-for="Product.Stock">
   </div>
   <div class="form-group">
     <label for="inputAddress2">CompanyID</label>
-    <input type="text" class="form-control" placeholder="CompanyID" asp-for="CompanyID">
+    <input type="text" class="form-control" placeholder="CompanyID" asp-for="Product.CompanyID">
   </div>
   <button type="submit" class="btn btn-primary">Create Product</button>
 </form>

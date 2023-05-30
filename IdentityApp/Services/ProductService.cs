@@ -1,5 +1,6 @@
 ﻿using IdentityEcommerce.Models;
 using IdentityEcommerce.Models.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,12 @@ namespace IdentityEcommerce.Services
         {
             var reviews = _productRepos.GetReviewsOfSpecificProduct(productID);
             return reviews;
+        }
+
+        public List<Category> GetAllCategories()
+        {
+            var categories = _productRepos.GetAllCategories();
+            return categories;
         }
 
     }
