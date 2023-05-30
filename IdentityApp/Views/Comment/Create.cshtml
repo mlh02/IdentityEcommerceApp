@@ -1,0 +1,18 @@
+﻿@model Comment
+
+
+<form asp-controller="Comment" asp-action="Create">
+
+  <div class="form-row">
+    <input type="text" hidden value="@Model.ProductID" asp-for="ProductID">
+    <input type="text" hidden value="@Model.ReviewID" asp-for="ReviewID">
+    <input type="text" hidden value="@Model.UserId" asp-for="UserId">
+
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Type your comment...</label>
+      <input type="text" class="form-control"  asp-for="Body">
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit Comment</button>
+</form>
