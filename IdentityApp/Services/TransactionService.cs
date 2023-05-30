@@ -20,10 +20,8 @@ namespace IdentityEcommerce.Services
             return ProductFound;
         }
 
-        public bool Create(Transaction transaction, AppUser user)
+        public bool Create(Transaction transaction)
         {
-            user.MyRewardPoints += transaction.CurrentProduct.RewardPoints;
-            transaction.UserId = user.Id.ToString();
             bool createdTransaction = _transactionRepos.Create(transaction);
             return createdTransaction;
         }
@@ -33,6 +31,7 @@ namespace IdentityEcommerce.Services
             var allTransactions = _transactionRepos.GetAllTransactions();
             return allTransactions;
         }
+
 
     }
 }
