@@ -39,6 +39,8 @@ namespace IdentityEcommerce.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Transaction transaction)
         {
+            var userID = _userManager.GetUserId(HttpContext.User);
+            transaction.UserId = userID;
             await UpdateCurrentUser(transaction);
             bool createdTransaction = _transactionService.Create(transaction);
             if (createdTransaction)
