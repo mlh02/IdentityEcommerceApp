@@ -48,5 +48,12 @@ namespace IdentityEcommerce.Services
             return categories;
         }
 
+        public List<Comment> GetCommentForProductReview(int productID)
+        {
+            var specificComment = _productRepos.GetCommentForProductReview(productID);
+            return specificComment;
+
+        }
+
     }
 }

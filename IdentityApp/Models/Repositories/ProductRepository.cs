@@ -51,5 +51,12 @@ namespace IdentityEcommerce.Models.Repositories
             var categories = _context.Categories.ToList();
             return categories;
         }
+
+        public List<Comment> GetCommentForProductReview(int productID)
+        {
+            var specificComment = _context.Comments.Where(x => x.ProductID == productID).ToList();
+            return specificComment;
+           
+        }
     }
 }

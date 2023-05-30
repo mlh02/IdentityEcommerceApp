@@ -8,6 +8,7 @@ namespace IdentityEcommerce.Models.ViewModels
     {
         public Product Product { get; set; }
         public List<Review> Reviews { get; set; }
+        public List<Comment> CommentsForReviews { get; set; }
         public int CalculateAverageRating()
         {
             if(Reviews.Count > 0)
@@ -17,5 +18,6 @@ namespace IdentityEcommerce.Models.ViewModels
             }
             return 0;
         }
+
     }
 }
