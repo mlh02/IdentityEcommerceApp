@@ -21,5 +21,15 @@ namespace IdentityEcommerce.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Comment> Comments { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Category>().HasData(new Category { ID = 1, Name = "Computers"});
+            modelBuilder.Entity<Category>().HasData(new Category { ID = 2, Name = "Games"});
+            modelBuilder.Entity<Category>().HasData(new Category { ID = 3, Name = "Cellphones"});
+
+        }
     }
 }
