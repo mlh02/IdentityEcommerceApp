@@ -39,6 +39,24 @@
                 <td>@review.Body</td>
                 <td>@review.Rating</td>
                 <td> <a class="btn btn-secondary" asp-action="Create" asp-controller="Comment" asp-route-productID="@review.ProductID" asp-route-reviewID="@review.ID">Comment</a></td>
+                <td>
+                    <table class="table table-striped table-dark">
+                        <tr>
+                            <th>User ID</th>
+                            <th>Comment</th>
+                        </tr>
+                        @{
+                            foreach(var comment in Model.CommentsForReviews)
+                            {
+                                <tr>
+                                    <td>@comment.UserId</td>
+                                    <td>@comment.Body</td>
+                                </tr>
+                            }
+                        }
+
+                    </table>
+                </td>
             </tr>
         }
     }

@@ -56,6 +56,7 @@ namespace IdentityEcommerce.Controllers
             var prvm = new ProductAndReviewViewModel();
             prvm.Product = _productService.GetProductByID(productID);
             prvm.Reviews = _productService.GetReviewsOfSpecificProduct(productID);
+            prvm.CommentsForReviews = _productService.GetCommentForProductReview(productID);
             return View(prvm);
         }
     }
