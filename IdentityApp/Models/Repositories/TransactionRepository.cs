@@ -17,7 +17,7 @@ namespace IdentityEcommerce.Models.Repositories
         {
 
             transaction.Total = transaction.CurrentProduct.Price * transaction.QuantityBought;
-            transaction.UserId = transaction.CurrentProduct.UserId;
+            transaction.CurrentProduct = null;
             try
             {
                 _context.Transactions.Add(transaction);
