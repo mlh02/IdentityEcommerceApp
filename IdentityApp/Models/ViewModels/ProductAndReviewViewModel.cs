@@ -10,8 +10,12 @@ namespace IdentityEcommerce.Models.ViewModels
         public List<Review> Reviews { get; set; }
         public int CalculateAverageRating()
         {
-            var averageRating = Reviews.Sum(x => x.Rating) / Reviews.Count();
-            return averageRating;
+            if(Reviews.Count > 0)
+            {
+                var averageRating = Reviews.Sum(x => x.Rating) / Reviews.Count();
+                return averageRating;
+            }
+            return 0;
         }
     }
 }
