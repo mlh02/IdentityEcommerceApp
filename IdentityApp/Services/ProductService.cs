@@ -1,4 +1,5 @@
-﻿using IdentityEcommerce.Models;
+﻿using IdentityApp.Models.Repositories;
+using IdentityEcommerce.Models;
 using IdentityEcommerce.Models.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -55,5 +56,37 @@ namespace IdentityEcommerce.Services
 
         }
 
+        public bool CreateRating(int ratingOption, Like like = null, Dislike dislike = null)
+        {
+            var likes = GetAllLikes();
+            var dislikes = GetAllDislikes();
+            if(ratingOption == 1)
+            {
+                if (likes.Any(x => x.UserID == like.UserID && x.ReviewID == like.ReviewID) || dislikes.Any(x => x.UserID == like.UserID && x.ReviewID == like.ReviewID)){
+                    return false;
+                }
+            }
+            if(ratingOption == 2)
+            {
+                if (dislikes.Any(x => x.UserID == dislike.UserID && x.ReviewID == dislike.ReviewID) || likes.Any(x => x.UserID == dislike.UserID && x.ReviewID == dislike.ReviewID))
+                {
+                    return false;
+                }
+            }
+            var addedRating = _productRepos.CreateRating(ratingOption, like, dislike);
+            return addedRating;
+        }
+
+        public List<Like> GetAllLikes()
+        {
+            var likes = _productRepos.GetAllLikes();
+            return likes;
+        }
+
+        public List<Dislike> GetAllDislikes()
+        {
+            var dislikes = _productRepos.GetAllDislikes();
+            return dislikes;
+        }
     }
 }
