@@ -1,4 +1,5 @@
-﻿using IdentityEcommerce.Models;
+﻿using IdentityApp.Models.Repositories;
+using IdentityEcommerce.Models;
 using IdentityEcommerce.Models.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,8 @@ namespace IdentityEcommerce.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Dislike> Dislikes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
