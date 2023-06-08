@@ -50,8 +50,11 @@ namespace IdentityEcommerce.Controllers
                     return View(transaction);
                 }
             }
+            else
+            {
+                await UpdateUserRewardPoints(transaction.CurrentProduct.RewardPoints);
+            }
 
-            await UpdateUserRewardPoints(transaction.CurrentProduct.RewardPoints);
             bool createdTransaction = _transactionService.Create(transaction);
             if (createdTransaction)
             {
