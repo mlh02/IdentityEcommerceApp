@@ -92,5 +92,13 @@ namespace IdentityEcommerce.Controllers
             return user;
         }
 
+        public IActionResult Activity()
+        {
+            var userID = _userManager.GetUserId(HttpContext.User);
+            var transactions = _transactionService.GetAllTransactions();
+            var userTransactions = transactions.Where(x => x.UserId == userID);
+            return View(userTransactions);
+        }
+
     }
 }
