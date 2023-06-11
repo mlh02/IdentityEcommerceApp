@@ -31,6 +31,8 @@
     <tr>
         <th>User Comment</th>
         <th>Rating</th>
+        <th>Likes</th>
+        <th>Dislikes</th>
     </tr>
     @{
         foreach(var review in @Model.Reviews){
@@ -38,6 +40,49 @@
             <tr>
                 <td>@review.Body</td>
                 <td>@review.Rating</td>
+                @{
+                    var likeCounter = @Model.Likes.Where(x => x.ReviewID == review.ID).Count();
+                    var dislikeCounter = @Model.Dislikes.Where(x => x.ReviewID == review.ID).Count();
+                }
+                <td>@likeCounter</td>
+                <td>@dislikeCounter</td>
+                <td> <a class="btn btn-secondary" asp-action="Create" asp-controller="Comment" asp-route-productID="@review.ProductID" asp-route-reviewID="@review.ID">Comment</a></td>
+                <form asp-asp-controller="Product" asp-action="CreateRating">
+                  
+                  <input asp-for="LikeForm.ReviewID" hidden value="@review.ID">
+                  <input asp-for="@Model.RatingOption" hidden value="1">
+                  <input asp-for="@Model.Product.ProductID" hidden value="@Model.Product.ProductID">
+
+                  <td><button type="submit" class="btn btn-primary">Like</button></td>
+                </form>
+                <form asp-asp-controller="Product" asp-action="CreateRating">
+
+                  <input asp-for="DislikeForm.ReviewID" hidden value="@review.ID">
+                  <input asp-for="@Model.RatingOption" hidden value="2">
+                  <input asp-for="@Model.Product.ProductID" hidden value="@Model.Product.ProductID">
+
+
+
+                  <td><button type="submit" class="btn btn-primary">Dislike</button></td>
+                </form>
+                <td>
+                    <table class="table table-striped table-dark">
+                        <tr>
+                            <th>User ID</th>
+                            <th>Comment</th>
+                        </tr>
+                        @{
+                            foreach(var comment in Model.CommentsForReviews)
+                            {
+                                <tr>
+                                    <td>@comment.UserId</td>
+                                    <td>@comment.Body</td>
+                                </tr>
+                            }
+                        }
+
+                    </table>
+                </td>
             </tr>
         }
     }

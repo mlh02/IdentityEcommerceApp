@@ -1,3 +1,5 @@
+using IdentityApp.Models.Repositories;
+using IdentityApp.Services;
 using IdentityEcommerce.Data;
 using IdentityEcommerce.Models;
 using IdentityEcommerce.Models.Identity;
@@ -48,6 +50,8 @@ namespace IdentityEcommerce
             services.AddTransient<TransactionService>();
             services.AddTransient<ReviewRepository>();
             services.AddTransient<ReviewService>();
+            services.AddTransient<CommentRepository>();
+            services.AddTransient<CommentService>();
 
         }
 

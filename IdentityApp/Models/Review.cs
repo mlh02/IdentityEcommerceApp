@@ -15,4 +15,5 @@ namespace IdentityEcommerce.Models
         public int ProductID { get; set; }
         public int Rating { get; set; }
     }
+
 }

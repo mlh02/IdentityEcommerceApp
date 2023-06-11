@@ -16,8 +16,7 @@ namespace IdentityEcommerce.Models.Repositories
         public bool Create(Transaction transaction)
         {
 
-            transaction.Total = transaction.CurrentProduct.Price * transaction.QuantityBought;
-            transaction.UserId = transaction.CurrentProduct.UserId;
+            transaction.CurrentProduct = null;
             try
             {
                 _context.Transactions.Add(transaction);

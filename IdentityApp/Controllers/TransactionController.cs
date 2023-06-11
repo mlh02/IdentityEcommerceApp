@@ -1,5 +1,7 @@
-﻿using IdentityEcommerce.Models;
+﻿using IdentityEcommerce.Helpers.User;
+using IdentityEcommerce.Models;
 using IdentityEcommerce.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -35,15 +37,52 @@ namespace IdentityEcommerce.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> BuyAction(Transaction transaction)
+        public async Task<IActionResult> Create(Transaction transaction)
         {
+            var transactionTotal = _transactionService.CalculateTransactionTotal(transaction);
             var user = GetCurrentUser();
-            bool createdTransaction = _transactionService.Create(transaction, user);
+            transaction.UserId = user.Id.ToString();
+            if (transaction.PayPoints)
+            {
+                bool validPoints = await ValidatePointsForTransaction(transaction, transactionTotal, user);
+                if (!validPoints)
+                {
+                    return View(transaction);
+                }
+            }
+            else
+            {
+                await UpdateUserRewardPoints(transaction.CurrentProduct.RewardPoints);
+            }
+
+            bool createdTransaction = _transactionService.Create(transaction);
             if (createdTransaction)
             {
                 return RedirectToAction("Index");
             }
             return View(transaction);
+        }
+
+        public async Task<bool> ValidatePointsForTransaction(Transaction transaction, double transactionTotal, AppUser user)
+        {
+            var validatedPoints = _transactionService.ValidatePointsForTransaction(user.MyRewardPoints, transactionTotal);
+            if (validatedPoints)
+            {
+                await UpdateUserRewardPoints(transaction.CurrentProduct.RewardPoints, true, transactionTotal);
+                return true;
+            }
+            return false;
+        }
+
+        public async Task UpdateUserRewardPoints(int rewardPoints, bool payPoints = false, double transactionTotal = 0)
+        {
+            var user = GetCurrentUser();
+            if (payPoints)
+            {
+                user.MyRewardPoints -= Convert.ToInt32(transactionTotal / 0.6);
+            }
+            user.MyRewardPoints += rewardPoints;
+            await _userManager.UpdateAsync(user);
         }
 
         public AppUser GetCurrentUser()

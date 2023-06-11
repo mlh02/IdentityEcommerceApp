@@ -15,10 +15,13 @@ namespace IdentityEcommerce.Models
         public double Total { get; set; }
         public DateTime TransactionDate { get; set; } = DateTime.Now;
         public int QuantityBought { get; set; }
-        [ForeignKey("Products")]
-        public int ProductID { get; set; }
-        public virtual Product CurrentProduct { get; set; } 
+        public virtual Product CurrentProduct { get; set; }
+        public bool PayPoints { get; set; }
+
+        //Foreign keys
         [ForeignKey("AspNetUsers")]
         public string UserId { get; set; }
+        [ForeignKey("Products")]
+        public int ProductID { get; set; }
     }
 }
