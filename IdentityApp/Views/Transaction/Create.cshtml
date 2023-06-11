@@ -39,6 +39,12 @@
                 <span asp-validation-for="QuantityBought" class="text-danger"></span>
             </div>
             <div class="form-group">
+            <select asp-for="PayPoints">
+                <option value="false">Pay With Card/Cash</option>
+                <option value="true">Pay With Points</option>
+            </select>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Buy" class="btn btn-primary" />
             </div>
         </form>

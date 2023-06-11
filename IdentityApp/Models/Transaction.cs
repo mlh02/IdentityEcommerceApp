@@ -18,7 +18,7 @@ namespace IdentityEcommerce.Models
         public virtual Product CurrentProduct { get; set; }
         public bool PayPoints { get; set; }
 
-        //Foreign Keys
+        //Foreign keys
         [ForeignKey("AspNetUsers")]
         public string UserId { get; set; }
         [ForeignKey("Products")]
