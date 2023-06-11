@@ -1,12 +1,20 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
+@{
+
+    var userID = UserManager.GetUserId(@User);
+    var currentUser = UserManager.FindByIdAsync(userID).Result;
+}
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    <li>
+        <a class="nav-link text-dark" asp-controller="AppUser" asp-action="Settings">Settings</a>
+    </li>
     <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @currentUser.FirstName!</a>
     </li>
     <li class="nav-item">
         <form  class="form-inline" asp-controller="AppUser" asp-action="Logout">

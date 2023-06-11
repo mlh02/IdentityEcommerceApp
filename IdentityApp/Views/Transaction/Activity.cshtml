@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Transaction>
+
+<table class="table table-striped table-dark">
+    <tr>
+
+        <th>User Id</th>
+        <th>Full Name</th>
+        <th>Phone #</th>
+        <th>Email</th>
+        <th>Total</th>
+        <th>Transaction Date</th>
+        <th>Quantity Bought</th>
+        <th>Paid With Points</th>
+
+    </tr>
+
+    @foreach (var transaction in @Model)
+    {
+            <tr>
+
+                <td>@transaction.UserId</td>
+                <td>@transaction.FullName</td>
+                <td>@transaction.PhoneNumber</td>
+                <td>@transaction.Email</td>
+                <td>@transaction.Total</td>
+                <td>@transaction.TransactionDate</td>
+                <td>@transaction.QuantityBought</td>
+                <td>@transaction.PayPoints</td>
+
+            </tr>
+    }
+</table>
