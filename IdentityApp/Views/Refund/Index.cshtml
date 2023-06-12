@@ -3,29 +3,24 @@
 
 <table class="table table-striped table-dark">
     <tr>
-
         <th>ID</th>
         <th>UserID</th>
         <th>ProductID</th>
         <th>Specific Reason</th>
         <th>Notes</th>
         <th>Transaction Total</th>
-
     </tr>
 
-    @foreach (var transaction in @Model)
+    @foreach (var refund in @Model)
     {
-            <tr>
-
-                <td>@transaction.ID</td>
-                <td>@transaction.UserID</td>
-                <td>@transaction.ProductID</td>
-                <td>@transaction.SpecificReason</td>
-                <td>@transaction.Notes</td>
-                <td>@transaction.TransactionTotal</td>
-
-
-            </tr>
+        <tr>
+            <td>@refund.ID</td>
+            <td>@refund.UserID</td>
+            <td>@refund.ProductID</td>
+            <td>@refund.SpecificReason</td>
+            <td>@refund.Notes</td>
+            <td>@refund.TransactionTotal</td>
+        </tr>
     }
 </table>
 
