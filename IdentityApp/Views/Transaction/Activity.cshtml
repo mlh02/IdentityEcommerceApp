@@ -11,22 +11,26 @@
         <th>Transaction Date</th>
         <th>Quantity Bought</th>
         <th>Paid With Points</th>
+        <th>Action</th>
 
     </tr>
 
     @foreach (var transaction in @Model)
     {
-            <tr>
+        <tr>
 
-                <td>@transaction.UserId</td>
-                <td>@transaction.FullName</td>
-                <td>@transaction.PhoneNumber</td>
-                <td>@transaction.Email</td>
-                <td>@transaction.Total</td>
-                <td>@transaction.TransactionDate</td>
-                <td>@transaction.QuantityBought</td>
-                <td>@transaction.PayPoints</td>
+            <td>@transaction.UserId</td>
+            <td>@transaction.FullName</td>
+            <td>@transaction.PhoneNumber</td>
+            <td>@transaction.Email</td>
+            <td>@transaction.Total</td>
+            <td>@transaction.TransactionDate</td>
+            <td>@transaction.QuantityBought</td>
+            <td>@transaction.PayPoints</td>
+            <td><a class="btn btn-outline-danger" asp-action="Create" asp-controller="Refund" asp-route-productID="@transaction.ProductID" 
+                                                                                        asp-route-transactionTotal="@transaction.Total"
+                                                                                        asp-route-transactionDate="@transaction.TransactionDate">Refund</a></td>
 
-            </tr>
+        </tr>
     }
 </table>
