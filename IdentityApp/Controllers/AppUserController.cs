@@ -69,7 +69,8 @@ namespace IdentityEcommerce.Controllers
 
         public IActionResult Settings()
         {
-            return View();
+            var user = GetCurrentUser();
+            return View(user);
         }
 
         [HttpGet]

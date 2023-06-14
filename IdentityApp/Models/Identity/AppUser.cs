@@ -12,6 +12,7 @@ namespace IdentityEcommerce.Models
         public string Password { get; set; }
         public string ProfilePicture { get; set; }
         public int MyRewardPoints { get; set; }
+        public bool HasCreditCard { get; set; }
     }
 
 }
