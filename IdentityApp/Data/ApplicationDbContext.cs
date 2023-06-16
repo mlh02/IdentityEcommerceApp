@@ -26,6 +26,7 @@ namespace IdentityEcommerce.Data
         public DbSet<Like> Likes { get; set; }
         public DbSet<Dislike> Dislikes { get; set; }
         public DbSet<Refund> Refunds { get; set; }
+        public DbSet<CreditCard> CreditCards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

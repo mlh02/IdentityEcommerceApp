@@ -52,6 +52,10 @@ namespace IdentityEcommerce.Controllers
             }
             else
             {
+                if (!user.HasCreditCard)
+                {
+                    return RedirectToAction("Create", "CreditCard");
+                }
                 await UpdateUserRewardPoints(transaction.CurrentProduct.RewardPoints);
             }
 
