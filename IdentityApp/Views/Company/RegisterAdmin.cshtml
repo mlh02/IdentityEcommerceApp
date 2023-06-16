@@ -1,0 +1,31 @@
+﻿@model AdminAndCompanyFormViewModel
+
+<h1>---ADMIN---</h1>
+<form asp-controller="Company" asp-action="RegisterAdmin">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">UserName</label>
+            <input type="text" class="form-control" placeholder="UserName" asp-for="@Model.AdminForm.UserName">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputPassword4">Email</label>
+            <input type="text" class="form-control" placeholder="Email" asp-for="@Model.AdminForm.Email">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputAddress2">Password</label>
+        <input type="password" class="form-control" placeholder="Password" asp-for="@Model.AdminForm.Password">
+    </div>
+    <h1>---COMPANY---</h1>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputEmail4">Company Name</label>
+          <input type="text" class="form-control" placeholder="Name" asp-for="@Model.CompanyForm.Name"> 
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputPassword4">Logo</label>
+          <input type="text" class="form-control" placeholder="Logo" asp-for="@Model.CompanyForm.Logo">
+        </div>
+      </div>
+    <button type="submit" class="btn btn-primary">Register Admin and Company</button>
+</form>
