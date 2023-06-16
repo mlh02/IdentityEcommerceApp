@@ -1,2 +1,15 @@
-﻿<a class="btn btn-primary" asp-action="Activity" asp-controller="Transaction">Activity</a>
+﻿@model AppUser
+
+<a class="btn btn-primary" asp-action="Activity" asp-controller="Transaction">Activity</a>
 <a class="btn btn-secondary" asp-action="Update" asp-controller="AppUser">Profile & Visibility</a>
+
+@{
+    if (!@Model.HasCreditCard)
+    {
+        <a class="btn btn-success" asp-action="Create" asp-controller="CreditCard">Add Credit Card</a>
+    }
+    else
+    {
+        <a class="btn btn-info" asp-action="Update" asp-controller="CreditCard">Edit Credit Card</a>
+    }
+}
