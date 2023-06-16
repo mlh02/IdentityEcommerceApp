@@ -52,6 +52,8 @@ namespace IdentityEcommerce
             services.AddTransient<ReviewService>();
             services.AddTransient<CommentRepository>();
             services.AddTransient<CommentService>();
+            services.AddTransient<RefundRepository>();
+            services.AddTransient<RefundService>();
 
         }
 

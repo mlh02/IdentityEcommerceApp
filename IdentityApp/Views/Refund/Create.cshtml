@@ -1,0 +1,26 @@
+﻿@model Refund
+@using IdentityApp.Helpers.Enums
+
+<form asp-controller="Refund" asp-action="Create"> 
+  <div class="form-row">
+
+    <select asp-for="SpecificReason">
+      <option value="@RefundReasons.Reason1">@RefundReasons.Reason1</option>
+      <option value="@RefundReasons.Reason2">@RefundReasons.Reason2</option>
+      <option value="@RefundReasons.Reason3">@RefundReasons.Reason3</option>
+      <option value="@RefundReasons.Reason4">@RefundReasons.Reason4</option>
+      <option value="@RefundReasons.Reason5">@RefundReasons.Reason5</option>
+      <option value="@RefundReasons.Reason6">@RefundReasons.Reason6</option>
+      <option value="@RefundReasons.Reason7">@RefundReasons.Reason7</option>
+      <option value="@RefundReasons.Reason8">@RefundReasons.Reason8</option>
+    </select>
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Notes</label>
+      <input type="text" class="form-control" placeholder="Notes" asp-for="Notes">
+      <input type="text" hidden value="@Model.UserID" asp-for="UserID">
+      <input type="text" hidden value="@Model.ProductID" asp-for="ProductID">
+      <input type="text" hidden value="@Model.TransactionTotal" asp-for="TransactionTotal">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit Reason</button>
+</form>
