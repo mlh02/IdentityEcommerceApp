@@ -27,6 +27,7 @@ namespace IdentityEcommerce.Data
         public DbSet<Dislike> Dislikes { get; set; }
         public DbSet<Refund> Refunds { get; set; }
         public DbSet<CreditCard> CreditCards { get; set; }
+        public DbSet<Coupon> Coupons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
