@@ -1,4 +1,5 @@
-﻿using IdentityEcommerce.Data;
+﻿using IdentityApp.Models;
+using IdentityEcommerce.Data;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,12 @@ namespace IdentityEcommerce.Models.Repositories
         public IEnumerable<Transaction> GetAllTransactions()
         {
             return _context.Transactions.ToList();
+        }
+
+        public IEnumerable<Coupon> GetAllCoupons()
+        {
+            var coupons = _context.Coupons.ToList();
+            return coupons;
         }
     }
 }
