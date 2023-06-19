@@ -27,7 +27,7 @@ namespace IdentityEcommerce.Controllers
 
         public IActionResult Index()
         {
-            if (User.IsInRole(AppRoleEnum.User.ToString()))
+            if (User.IsInRole(AppRoleEnum.User.ToString()) || User.IsInRole(AppRoleEnum.SuperUser.ToString()))
             {
                 var allProducts = _productService.GetAllProducts();
                 return View(allProducts);
