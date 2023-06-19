@@ -1,7 +1,9 @@
 ﻿using IdentityApp.Helpers.Points;
+using IdentityApp.Models;
 using IdentityEcommerce.Models;
 using IdentityEcommerce.Models.Repositories;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
 
@@ -51,6 +53,21 @@ namespace IdentityEcommerce.Services
             }
             return true;
         }
+
+        public bool ValidateUserCoupon(Transaction transaction)
+        {
+            var coupon = _transactionRepos.GetAllCoupons().SingleOrDefault(x => x.Code.Equals(transaction.CouponCode));
+            if (coupon == null) return false;
+            if (coupon.Quantity == 0)
+            {
+                coupon.Active = false;
+                return false;
+            }
+            transaction.Total -= transaction.Total * (coupon.Percentage / 100);
+            coupon.Quantity--;
+            return true;
+        }
+
 
 
     }

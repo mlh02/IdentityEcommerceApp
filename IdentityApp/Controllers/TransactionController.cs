@@ -39,7 +39,8 @@ namespace IdentityEcommerce.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Transaction transaction)
         {
-            var transactionTotal = _transactionService.CalculateTransactionTotal(transaction);
+            double transactionTotal = _transactionService.CalculateTransactionTotal(transaction);
+            bool isCouponValid = _transactionService.ValidateUserCoupon(transaction);
             var user = GetCurrentUser();
             transaction.UserId = user.Id.ToString();
             if (transaction.PayPoints)

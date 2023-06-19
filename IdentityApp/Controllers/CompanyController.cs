@@ -5,6 +5,8 @@ using IdentityEcommerce.Models.Repositories;
 using IdentityEcommerce.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -34,6 +36,7 @@ namespace IdentityEcommerce.Controllers
         public IActionResult RegisterAdmin()
         {
             var adminAndCompanyViewModel = new AdminAndCompanyFormViewModel();
+            adminAndCompanyViewModel.Companies = _companiesService.GetCompanies().ToList();
             return View(adminAndCompanyViewModel);
         }
 
@@ -41,22 +44,40 @@ namespace IdentityEcommerce.Controllers
         public async Task<IActionResult> RegisterAdmin(AdminAndCompanyFormViewModel adminAndCompanyFormViewModel)
         {
             //registering admin
-            var role = AppRoleEnum.SuperUser.ToString();
             var newAdmin = adminAndCompanyFormViewModel.AdminForm;
-            var adminRegister = await _userManager.CreateAsync(newAdmin);
-            var assignRole = await _userManager.AddToRoleAsync(newAdmin, role);
-            newAdmin.IsAdmin = true;
-
-            //registering company
-            var newCompany = adminAndCompanyFormViewModel.CompanyForm;
-            bool createdCompany = _companiesService.Create(newCompany);
-            if (createdCompany)
+            var role = AppRoleEnum.SuperUser.ToString();
+            if(adminAndCompanyFormViewModel.AdminForm.AssignedCompanyId != "0")
             {
-                newAdmin.AssignedCompanyId = newCompany.CompanyID.ToString();
-                await _userManager.UpdateAsync(newAdmin);
-                return RedirectToAction("Index", "Product");
+                newAdmin.IsAdmin = true;
+                var adminRegister = await _userManager.CreateAsync(newAdmin);
+                var assignRole = await _userManager.AddToRoleAsync(newAdmin, role);
             }
-            return View();
+            else
+            {
+                if(adminAndCompanyFormViewModel.CompanyForm.Name != null)
+                {
+                    newAdmin.IsAdmin = true;
+                    var adminRegister = await _userManager.CreateAsync(newAdmin);
+                    var assignRole = await _userManager.AddToRoleAsync(newAdmin, role);
+                    var newCompany = adminAndCompanyFormViewModel.CompanyForm;
+                    bool createdCompany = _companiesService.Create(newCompany);
+                    if (createdCompany)
+                    {
+                        newAdmin.SecurityStamp = Guid.NewGuid().ToString();
+                        newAdmin.AssignedCompanyId = newCompany.CompanyID.ToString();
+                        await _userManager.UpdateAsync(newAdmin);
+                        return RedirectToAction("Index", "Product");
+                    }
+                }
+                else
+                {
+                    var adminAndCompanyViewModel = new AdminAndCompanyFormViewModel();
+                    adminAndCompanyViewModel.Companies = _companiesService.GetCompanies().ToList();
+                    return View(adminAndCompanyViewModel);
+                }
+            }
+            return RedirectToAction("Index", "Product");
+
         }
         [HttpGet]
         public IActionResult Create()

@@ -16,6 +16,10 @@
         <label for="inputAddress2">Password</label>
         <input type="password" class="form-control" placeholder="Password" asp-for="@Model.AdminForm.Password">
     </div>
+    <select asp-for="@Model.AdminForm.AssignedCompanyId"
+            asp-items="@(new SelectList(Model.Companies, nameof(Company.CompanyID), nameof(Company.Name)))">
+        <option value="0">Please select one</option>
+    </select>
     <h1>---COMPANY---</h1>
       <div class="form-row">
         <div class="form-group col-md-6">

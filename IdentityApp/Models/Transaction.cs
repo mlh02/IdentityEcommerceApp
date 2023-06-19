@@ -23,5 +23,7 @@ namespace IdentityEcommerce.Models
         public string UserId { get; set; }
         [ForeignKey("Products")]
         public int ProductID { get; set; }
+        [ForeignKey("Coupons")]
+        public string CouponCode { get; set; }
     }
 }
