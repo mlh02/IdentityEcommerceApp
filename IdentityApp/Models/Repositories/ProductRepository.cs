@@ -33,7 +33,8 @@ namespace IdentityEcommerce.Models.Repositories
 
         public IEnumerable<Product> GetAllProducts()
         {
-            return _context.Products.ToList();
+            var products = _context.Products.ToList();
+            return products;
         }
 
         public Product GetProductByID(int productID)
@@ -95,5 +96,18 @@ namespace IdentityEcommerce.Models.Repositories
             return dislikes;
         }
 
+        public bool Update(Product product)
+        {
+            try
+            {
+                _context.Products.Update(product);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
     }
 }

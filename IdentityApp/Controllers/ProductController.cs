@@ -9,6 +9,7 @@ using IdentityEcommerce.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Security.Claims;
 
@@ -67,7 +68,6 @@ namespace IdentityEcommerce.Controllers
             return View(prvm);
         }
 
-
         public IActionResult CreateRating(ProductAndReviewViewModel prvm)
         {
             var userID = int.Parse(_userManager.GetUserId(HttpContext.User));
@@ -96,6 +96,33 @@ namespace IdentityEcommerce.Controllers
                 return RedirectToAction("Details", "Product", new { productID = prvm.Product.ProductID });
 
             }
+        }
+
+        [HttpGet]
+        public IActionResult Update(int productID)
+        {
+            var product = _productService.GetProductByID(productID);
+            var pcvm = new ProductAndCategoryViewModel();
+            pcvm.Product = product;
+            pcvm.Categories = _productService.GetAllCategories();
+            return View(pcvm);
+        }
+
+        [HttpPost]
+        public IActionResult Update(Product product)
+        {
+            bool updatedProduct = _productService.Update(product);
+            if (updatedProduct)
+            {
+                return RedirectToAction("Index", "Product");
+            }
+            return View(product);
+        }
+
+        public IActionResult UpdateCompanyProducts(string companyID)
+        {
+            var productsFromCompany = _productService.GetProductsByCompanyID(Convert.ToInt32(companyID));
+            return View(productsFromCompany);
         }
     }
 }
