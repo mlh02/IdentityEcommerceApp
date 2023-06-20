@@ -18,7 +18,10 @@
         <a class="nav-link text-dark" asp-controller="Coupon" asp-action="Create">Create Coupon</a>
     </li>
     <li>
-        <a class="btn btn-success" asp-action="Create" asp-controller="Product">Add Product</a>
+        <a class="nav-link text-dark" asp-action="Create" asp-controller="Product">Add Product</a>
+    </li>
+    <li>
+        <a class="nav-link text-dark" asp-action="UpdateCompanyProducts" asp-controller="Product" asp-route-companyID="@currentUser.AssignedCompanyId">Company Products</a>
     </li>
 }
 @if (SignInManager.IsSignedIn(User))

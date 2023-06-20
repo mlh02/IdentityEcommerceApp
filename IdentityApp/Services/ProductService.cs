@@ -88,5 +88,17 @@ namespace IdentityEcommerce.Services
             var dislikes = _productRepos.GetAllDislikes();
             return dislikes;
         }
+
+        public bool Update(Product product)
+        {
+            var updatedProduct = _productRepos.Update(product);
+            return updatedProduct;
+        }
+
+        public IEnumerable<Product> GetProductsByCompanyID(int companyID)
+        {
+            var productsFromCompany = GetAllProducts().Where(x => x.CompanyID == companyID);
+            return productsFromCompany;
+        }
     }
 }

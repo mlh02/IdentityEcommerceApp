@@ -8,5 +8,6 @@ namespace IdentityEcommerce.Models.Repositories
         bool Create(Product product);
         Product GetProductByID(int productID);
         List<Review> GetReviewsOfSpecificProduct(int productID);
+        bool Update(Product product);
     }
 }
