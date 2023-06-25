@@ -5,6 +5,7 @@
   <div class="form-row">
     <input hidden value="@Model.Product.ProductID" asp-for="Product.ProductID"/>
     <input hidden value="@Model.Product.RewardPoints" asp-for="Product.RewardPoints"/>
+    <input hidden value="@Model.Product.Archived" asp-for="Product.Archived"/>
     <select asp-for="Product.CategoryID"
             asp-items="@(new SelectList(Model.Categories, nameof(Category.ID), nameof(Category.Name)))">
       <option>Please select one</option>
