@@ -10,6 +10,8 @@
         <th>CompanyID</th>
         <th>CategoryID</th>
         <th>UserId</th>
+        <th>Archived</th>
+        <th>Action</th>
         <th>Action</th>
     </tr>
 
@@ -24,7 +26,9 @@
             <td>@product.CompanyID</td>
             <td>@product.CategoryID</td>
             <td>@product.UserId</td>
+            <td>@product.Archived</td>
             <td><a class="btn btn-info" asp-controller="Product" asp-action="Update" asp-route-productId="@product.ProductID">Update</a></td>
+            <td><a class="btn btn-danger" asp-controller="Product" asp-action="ArchiveProduct" asp-route-productId="@product.ProductID">Archive</a></td>
         </tr>
     }
 </table>

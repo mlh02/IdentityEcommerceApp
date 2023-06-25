@@ -13,6 +13,7 @@ namespace IdentityEcommerce.Models
         public string Picture { get; set; }
         public int Stock { get; set; }
         public int RewardPoints { get; set; }
+        public bool Archived { get; set; }
 
         //Foreign Keys
         [ForeignKey("Companies")] 

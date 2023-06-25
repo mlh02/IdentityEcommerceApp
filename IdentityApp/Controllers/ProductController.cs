@@ -114,7 +114,7 @@ namespace IdentityEcommerce.Controllers
             bool updatedProduct = _productService.Update(product);
             if (updatedProduct)
             {
-                return RedirectToAction("Index", "Product");
+                return RedirectToAction("UpdateCompanyProducts", "Product", new {companyID = product.CompanyID});
             }
             return View(product);
         }
@@ -123,6 +123,18 @@ namespace IdentityEcommerce.Controllers
         {
             var productsFromCompany = _productService.GetProductsByCompanyID(Convert.ToInt32(companyID));
             return View(productsFromCompany);
+        }
+
+        public IActionResult ArchiveProduct(int productID)
+        {
+            var product = _productService.GetProductByID(productID);
+            product.Archived = true;
+            var updatedProduct = _productService.Update(product);
+            if (updatedProduct)
+            {
+                return RedirectToAction("UpdateCompanyProducts", "Product", new {companyID = product.CompanyID});
+            }
+            return View();
         }
     }
 }
