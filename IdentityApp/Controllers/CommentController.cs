@@ -1,5 +1,6 @@
 ﻿using IdentityApp.Services;
 using IdentityEcommerce.Models;
+using IdentityEcommerce.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,8 +29,9 @@ namespace IdentityApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Comment comment)
+        public IActionResult Create(ProductAndReviewViewModel parv)
         {
+            Comment comment = parv.CommentForm;
             bool createdComment = _commentService.Create(comment);
             if (createdComment)
             {

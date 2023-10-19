@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Collections.Generic;
 
 namespace IdentityEcommerce.Models
 {
@@ -13,6 +14,7 @@ namespace IdentityEcommerce.Models
         public string ProfilePicture { get; set; }
         public int MyRewardPoints { get; set; }
         public bool HasCreditCard { get; set; }
+ 
     }
 
 }

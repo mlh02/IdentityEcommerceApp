@@ -1,4 +1,5 @@
 ﻿using IdentityApp.Models.Repositories;
+using IdentityApp.Models.ViewModels;
 using IdentityEcommerce.Models;
 using IdentityEcommerce.Models.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,15 @@ namespace IdentityEcommerce.Services
             bool createdProduct = _productRepos.Create(product);
             return createdProduct;
         }
-
+        public ProductIndexViewModel GetIndexViewModel(int categoryId, int companyId)
+        {
+            return _productRepos.GetIndexViewModel(categoryId, companyId);
+        }
+        public IEnumerable<Product> GetAllProductsArchived()
+        {
+            var allProducts = _productRepos.GetAllProductsArchived();
+            return allProducts;
+        }
         public IEnumerable<Product> GetAllProducts()
         {
             var allProducts = _productRepos.GetAllProducts();
@@ -88,6 +97,12 @@ namespace IdentityEcommerce.Services
             var dislikes = _productRepos.GetAllDislikes();
             return dislikes;
         }
+        public List<Company> GetAllCompanies()
+        {
+            var getAllCompanies = _productRepos.GetAllCompanies();
+            return getAllCompanies;
+        }
+
 
         public bool Update(Product product)
         {
@@ -100,5 +115,11 @@ namespace IdentityEcommerce.Services
             var productsFromCompany = GetAllProducts().Where(x => x.CompanyID == companyID);
             return productsFromCompany;
         }
+        public IEnumerable<Product> GetProductsArchivedByCompanyID(int companyID)
+        {
+            var productsFromCompany = GetAllProductsArchived().Where(x => x.CompanyID == companyID);
+            return productsFromCompany;
+        }
+
     }
 }

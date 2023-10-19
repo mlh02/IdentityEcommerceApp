@@ -17,6 +17,7 @@ namespace IdentityEcommerce.Models
         public int QuantityBought { get; set; }
         public virtual Product CurrentProduct { get; set; }
         public bool PayPoints { get; set; }
+        public bool RefundedStatus { get; set; } = false;
 
         //Foreign keys
         [ForeignKey("AspNetUsers")]

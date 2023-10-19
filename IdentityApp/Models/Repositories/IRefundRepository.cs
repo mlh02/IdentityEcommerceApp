@@ -5,6 +5,6 @@ namespace IdentityApp.Models.Repositories
     public interface IRefundRepository
     {
         bool Create(Refund refund);
-        IEnumerable<Refund> GetAllRefunds();
+        IEnumerable<Refund> GetAllRefunds(int UserId);
     }
 }

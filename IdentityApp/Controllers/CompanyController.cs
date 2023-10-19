@@ -30,7 +30,7 @@ namespace IdentityEcommerce.Controllers
                 var allCompanies = _companiesService.GetCompanies();
                 return View(allCompanies);
             }
-            return RedirectToAction("Login", "AppUser");
+            return RedirectToAction("Register", "AppUser");
         }
         [HttpGet]
         public IActionResult RegisterAdmin()
@@ -45,6 +45,7 @@ namespace IdentityEcommerce.Controllers
         {
             //registering admin
             var newAdmin = adminAndCompanyFormViewModel.AdminForm;
+            newAdmin.ProfilePicture = "https://e0.pxfuel.com/wallpapers/771/37/desktop-wallpaper-default-baseball-cap-pfp-cute-instagram-fitted-hats-icon-thumbnail.jpg";
             var role = AppRoleEnum.SuperUser.ToString();
             if(adminAndCompanyFormViewModel.AdminForm.AssignedCompanyId != "0")
             {

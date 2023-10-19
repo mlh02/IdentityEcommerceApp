@@ -1,0 +1,332 @@
+﻿@{
+
+    Layout = null;
+}
+@using IdentityEcommerce.Helpers.Enums;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@{
+
+    var userID = UserManager.GetUserId(@User);
+    var currentUser = UserManager.FindByIdAsync(userID).Result;
+}
+@model IEnumerable<Product>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>GameFire</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+    <!-- Material Design Iconic Font-V2.2.0 -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/material-design-iconic-font.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
+    <link rel="stylesheet" href="~/SiteTemplate/css/font-awesome.min.css">
+    <!-- Font Awesome Stars-->
+    <link rel="stylesheet" href="~/SiteTemplate/css/fontawesome-stars.css">
+    <!-- Meanmenu CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/meanmenu.css">
+    <!-- owl carousel CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/owl.carousel.min.css">
+    <!-- Slick Carousel CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/slick.css">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/animate.css">
+    <!-- Jquery-ui CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/jquery-ui.min.css">
+    <!-- Venobox CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/venobox.css">
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/nice-select.css">
+    <!-- Magnific Popup CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/magnific-popup.css">
+    <!-- Bootstrap V4.1.3 Fremwork CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/bootstrap.min.css">
+    <!-- Helper CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/helper.css">
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/responsive.css">
+    <!-- Modernizr js -->
+    <script src="~/SiteTemplate/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<header>
+    <!-- Begin Header Top Area -->
+    <div class="header-top">
+        <div class="container">
+            <div class="row">
+                <!-- Begin Header Top Left Area -->
+                <div class="col-lg-3 col-md-4">
+                    <div class="header-top-left">
+                        <ul class="phone-wrap">
+                            <!-- <li><span>Telephone Enquiry:</span><a href="#">(+123) 123 321 345</a></li> -->
+                        </ul>
+                    </div>
+                </div>
+                <!-- Header Top Left Area End Here -->
+                <!-- Begin Header Top Right Area -->
+                <div class="col-lg-9 col-md-8">
+                    <div class="header-top-right">
+                        <ul class="ht-menu">
+                            <!-- Begin Setting Area -->
+
+                            <!-- Setting Area End Here -->
+                            <!-- Begin Currency Area -->
+                            <li>
+                                <span class="currency-selector-wrapper">Currency :</span>
+                                <div class="ht-currency-trigger"><span>USD $</span></div>
+                            </li>
+                            <!-- Currency Area End Here -->
+                            <!-- Begin Language Area -->
+                            <li>
+                                <span class="language-selector-wrapper">Language :</span>
+                                <div class="ht-language-trigger"><span>English</span></div>
+                            </li>
+                            <!-- Language Area End Here -->
+                        </ul>
+                    </div>
+                </div>
+                <!-- Header Top Right Area End Here -->
+            </div>
+        </div>
+    </div>
+    <!-- Header Top Area End Here -->
+    <!-- Begin Header Middle Area -->
+    <div class="header-middle pl-sm-0 pr-sm-0 pl-xs-0 pr-xs-0">
+        <div class="container">
+            <div class="row">
+                <!-- Begin Header Logo Area -->
+                <div class="col-lg-3">
+                    <div class="logo pb-sm-30 pb-xs-30">
+                           <a  >
+                            <img style="z-index: -1;position: absolute;margin-bottom: ;width: 207px;bottom: -74px;" src="/SiteImg/logo1.png" alt="">
+                                </a>
+                    </div>
+                </div>
+                <!-- Header Logo Area End Here -->
+                <!-- Begin Header Middle Right Area -->
+                <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
+                    <!-- Begin Header Middle Searchbox Area -->
+                    <form action="#" class="hm-searchbox">
+
+                        <input type="text" placeholder="Enter your search key ...">
+                        <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
+                    </form>
+                    <!-- Header Middle Searchbox Area End Here -->
+                    <!-- Begin Header Middle Right Area -->
+                    <div class="header-middle-right">
+                        <ul class="hm-menu">
+                            <!-- Header Middle Wishlist Area End Here -->
+                            <!-- Begin Header Mini Cart Area -->
+                            <li class="hm-minicart">
+                                <div class="hm-minicart-trigger">
+                                    <span class="item-icon"></span>
+                                    <span class="item-text">
+                                    </span>
+                                </div>
+                                <span></span>
+                            </li>
+                            <!-- Header Mini Cart Area End Here -->
+                        </ul>
+                    </div>
+                    <!-- Header Middle Right Area End Here -->
+                </div>
+                <!-- Header Middle Right Area End Here -->
+            </div>
+        </div>
+    </div>
+    <!-- Header Middle Area End Here -->
+    <!-- Begin Header Bottom Area -->
+    <div class="header-bottom mb-0 header-sticky stick d-none d-lg-block d-xl-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Begin Header Bottom Menu Area -->
+                    <div class="hb-menu">
+                        <nav>
+                            <ul>
+                                <li class="dropdown-holder">
+                                    <a href="@Url.Action("Index", "Product")">Home</a>
+                                </li>
+                                 <li>
+                                    <a asp-action="UpdateCompanyProducts" asp-controller="Product" asp-route-companyID="@currentUser.AssignedCompanyId">Current Company Products</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!-- Header Bottom Menu Area End Here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header Bottom Area End Here -->
+    <!-- Begin Mobile Menu Area -->
+    <div class="mobile-menu-area d-lg-none d-xl-none col-12">
+        <div class="container">
+            <div class="row">
+                <div class="mobile-menu">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Mobile Menu Area End Here -->
+    <!-- Header Area End Here -->
+    <!-- Begin Li's Breadcrumb Area -->
+    <div class="breadcrumb-area">
+        <div class="container">
+            <div class="breadcrumb-content">
+                <ul>
+                    <li><a href="@Url.Action("Index", "Product")">Home</a></li>
+                    @if (Model.FirstOrDefault() != null)
+                    {
+                        <li class="active">@Model.FirstOrDefault().Company.Name Games  </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Header Area End Here -->
+<!-- Begin Li's Breadcrumb Area -->
+
+ 
+ 
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<div class="container" style="margin-top:10px">
+    <div class="row">
+        <div class="col-12 mb-3 mb-lg-5">
+            <div class="position-relative card table-nowrap table-card">
+                <div class="card-header align-items-center">
+                    <h5 class="mb-0">Latest Games</h5>
+                </div>
+                <div class="table-responsive">
+                    <div class="header-middle-search" style="top: 91px; right: 20px;">
+                        <form id="searchForm" class="hm-searchbox" action="#" method="get">
+                            <input id="searchInput" type="text" placeholder="Enter your search key ...">
+                            <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                        <table id="myTable" class="table mb-0">     
+                            
+                            <thead class="small text-uppercase bg-body text-muted">
+
+                                    <tr>
+                                        <th>ProductID</th>
+                                        <th>Price</th>
+                                        <th>Name</th>
+                                        <th>Stock</th>
+                                        <th>Company Name</th>
+                                        <th>Category Name</th>
+                                        <th>Action</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr class="align-middle">
+                                                <td>@item.ProductID</td>
+                                                <td>@item.Price</td>
+                                                <td>@item.Name</td>
+                                                <td>@item.Stock</td>
+                                                <td>@item.Company.Name</td>
+                                                <td>@item.Category.Name</td>
+                                                <td><a class="btn btn-info" asp-controller="Product" asp-action="Update" asp-route-productId="@item.ProductID">Update</a></td>
+                                                <td><a class="btn btn-danger" asp-controller="Product" asp-action="UnArchiveProduct" asp-route-productId="@item.ProductID">Un-Archive</a></td>
+                                            </tr>
+                                        }
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+ 
+
+.header-middle-search {
+  z-index: 2;
+  top: 10px;
+  right: 10px;
+}
+    .card {
+        box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+    }
+
+    .avatar.sm {
+        width: 2.25rem;
+        height: 2.25rem;
+        font-size: .818125rem;
+    }
+
+    .table-nowrap .table td,
+    .table-nowrap .table th {
+        white-space: nowrap;
+    }
+
+    .table > :not(caption) > * > * {
+        padding: 0.75rem 1.25rem;
+        border-bottom-width: 1px;
+    }
+
+    table th {
+        font-weight: 600;
+        background-color: #eeecfd !important;
+    }
+
+    .fa-arrow-up {
+        color: #00CED1;
+    }
+
+    .fa-arrow-down {
+        color: red;
+    }
+    #myTable {
+        margin-right: 27px;
+    }
+
+    .dataTables_length,
+    .dataTables_paginate {
+        margin: 1;
+    }.dataTables_wrapper .dataTables_filter {
+        position: relative;
+    }
+
+     .container {
+        position: relative;
+    }
+
+    .header-middle-search {
+        position: absolute;
+        top: 101px;
+        right: 10px;
+    }
+</style>
+<!-- Add this before your script tag -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var dataTable = $('#myTable').DataTable({
+            dom: '<"lengthControl"l><"tableControl"t><"paginationControl"p>',
+            initComplete: function() {
+                $('.lengthControl').css('margin', '20px');
+                $('.tableControl').css('margin', '20px');
+                $('.paginationControl').css('margin', '30px');
+            }
+        });
+
+        $('#searchForm').submit(function(e) {
+            e.preventDefault();
+            dataTable.search($('#searchInput').val()).draw();
+        });
+    });
+</script>

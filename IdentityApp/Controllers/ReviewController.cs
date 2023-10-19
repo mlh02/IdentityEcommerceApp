@@ -1,5 +1,6 @@
 ﻿using IdentityEcommerce.Helpers.User;
 using IdentityEcommerce.Models;
+using IdentityEcommerce.Models.ViewModels;
 using IdentityEcommerce.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -24,14 +25,15 @@ namespace IdentityEcommerce.Controllers
             var user = GetCurrentUser();
             Review review = new Review();
             review.ProductID = productID;
-            review.UserID = user.Id;
+            review.UserId = user.Id;
             return View(review);
         }
 
 
         [HttpPost]
-        public IActionResult Create(Review review)
+        public IActionResult Create(ProductAndReviewViewModel parv)
         {
+            Review review = parv.ReviewForm;
             bool createdReview = _reviewService.Create(review);
             if (createdReview)
             {

@@ -14,7 +14,8 @@ namespace IdentityEcommerce.Models
 
         // Foreign Keys
         [ForeignKey("AspNetUsers")]
-        public virtual int UserId { get; set; }
+        public int UserId { get; set; }
+        public virtual AppUser AppUser { get; set; }
 
         [ForeignKey("Products")]
         public int ProductID { get; set; }

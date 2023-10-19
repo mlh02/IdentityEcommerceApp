@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace IdentityEcommerce.Helpers.User
 {
-    public class UserHelper
+    public static class UserHelper
     {
+       
     }
 }

@@ -32,12 +32,13 @@ namespace IdentityApp.Controllers
         public async Task<IActionResult> Create(CreditCard creditCard)
         {
             var user = GetCurrentUser();
+            creditCard.UserID = user.Id;
             bool createdCard = _creditCardService.Create(creditCard);
             if (createdCard)
             {
                 user.HasCreditCard = true;
                 await _userManager.UpdateAsync(user);
-                return RedirectToAction("Settings", "AppUser");
+                return RedirectToAction("Index","Product");
             }
             return View();
         }
@@ -47,18 +48,28 @@ namespace IdentityApp.Controllers
         {
             var user = GetCurrentUser();
             var userCard = _creditCardService.GetCurrentUserCreditCard(user.Id);
-            return View(userCard);
+            if (userCard == null)
+            {
+                return RedirectToAction("Create", "CreditCard");
+
+            }
+            else
+            {
+                return View(userCard);
+
+            }
         }
 
         [HttpPost]
         public IActionResult Update(CreditCard creditCard)
         {
+            creditCard.UserID = GetCurrentUser().Id;
             bool updatedCard = _creditCardService.Update(creditCard);
             if (updatedCard)
             {
-                return RedirectToAction("Settings", "AppUser");
+                return RedirectToAction("Update", "CreditCard");
             }
-            return View();
+           return RedirectToAction("Update", "CreditCard");
         }
 
         public AppUser GetCurrentUser()

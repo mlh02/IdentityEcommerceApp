@@ -1,9 +1,16 @@
-﻿using IdentityApp.Models;
+﻿using IdentityApp.Helpers.Enums;
+using IdentityApp.Helpers.Points;
+using IdentityApp.Migrations;
+using IdentityApp.Models;
+using IdentityApp.Models.ViewModels;
 using IdentityApp.Services;
 using IdentityEcommerce.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace IdentityApp.Controllers
@@ -19,14 +26,26 @@ namespace IdentityApp.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var refunds = _refundService.GetAllRefunds();
+            List<Refund> refunds;
+            if(GetCurrentUser().AssignedCompanyId  == null)
+            {
+                refunds = _refundService.GetAllRefundsRegularUser(GetCurrentUser().Id).ToList();
+            }
+            else
+            {
+                refunds = _refundService.GetAllRefunds(Int32.Parse(GetCurrentUser().AssignedCompanyId)).ToList();
+            }
+            foreach (var item in refunds)
+            {
+                item.CurrentUser = await _userManager.FindByIdAsync(item.UserId.ToString());
+            }
             return View(refunds);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create(int productID, double transactionTotal, DateTime transactionDate)
+        public async Task<IActionResult> Create(int productID, double transactionTotal, DateTime transactionDate, int transactionId)
         {
             bool validDeadline =_refundService.CheckRefundDeadline(transactionDate);
             if (!validDeadline)
@@ -35,9 +54,10 @@ namespace IdentityApp.Controllers
             }
             var refund = new Refund();
             var user = GetCurrentUser();
-            refund.UserID = user.Id;
+            refund.UserId = user.Id;
             refund.ProductID = productID;
             refund.TransactionTotal = transactionTotal;
+            refund.TransactionId = transactionId;
             var returnedPoints = _refundService.CalculateReturnedPoints(user.MyRewardPoints, transactionTotal);
             await UpdateUserPoints(user, returnedPoints);
             return View(refund);
@@ -46,10 +66,10 @@ namespace IdentityApp.Controllers
         [HttpPost]
         public IActionResult Create(Refund refund)
         {
-            bool createdRefund = _refundService.Create(refund);
+             bool createdRefund = _refundService.Create(refund);
             if (createdRefund)
             {
-                return RedirectToAction("Activity", "Transaction");
+                return RedirectToAction("Index", "Refund");
             }
             return View();
         }
@@ -64,6 +84,29 @@ namespace IdentityApp.Controllers
         {
             user.MyRewardPoints += returnedPoints;
             await _userManager.UpdateAsync(user);
+        }
+        public async Task<IActionResult> ReviewRefund(int refundTotal, int refundId, int userId,int transactionId, bool accept)
+        {
+            if (accept)
+            {
+                var currentUser = await _userManager.FindByIdAsync(userId.ToString());
+                await UpdateUserPoints(currentUser, PointConverter.ConvertMoneyToPoints(refundTotal));
+                var refund = _refundService.GetRufundById(refundId);
+                refund.Status = RefundStatus.Finished.ToString();
+                var updated = _refundService.UpdateRefund(refund);
+                // Get transaction -> Update transaction.RefundedStatus = true -> Save to Db
+                var updatedTransaction = _refundService.UpdateTransactionAfterRefund(transactionId, true);
+                return RedirectToAction("Index", "Refund");
+            }
+            else
+            {
+                var refund = _refundService.GetRufundById(refundId);
+                refund.Status = RefundStatus.Rejected.ToString();
+                var updated = _refundService.UpdateRefund(refund);
+                // Get transaction -> Update transaction.RefundedStatus = true -> Save to Db
+                var updatedTransaction = _refundService.UpdateTransactionAfterRefund(transactionId, true);
+                return RedirectToAction("Index", "Refund");
+            }
         }
     }
 }

@@ -1,40 +1,311 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - IdentityEcommerce</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>GameFire</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/SiteImg/logo1.png">
+
+    <!-- Material Design Iconic Font-V2.2.0 -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/material-design-iconic-font.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/font-awesome.min.css">
+    <!-- Font Awesome Stars-->
+    <link rel="stylesheet" href="~/SiteTemplate/css/fontawesome-stars.css">
+    <!-- Meanmenu CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/meanmenu.css">
+    <!-- owl carousel CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/owl.carousel.min.css">
+    <!-- Slick Carousel CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/slick.css">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/animate.css">
+    <!-- Jquery-ui CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/jquery-ui.min.css">
+    <!-- Venobox CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/venobox.css">
+    <!-- Nice Select CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/nice-select.css">
+    <!-- Magnific Popup CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/magnific-popup.css">
+    <!-- Bootstrap V4.1.3 Fremwork CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/bootstrap.min.css">
+    <!-- Helper CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/helper.css">
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/style.css">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="~/SiteTemplate/css/responsive.css">
+    <!-- Modernizr js -->
+    <script src="~/SiteTemplate/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
+@using IdentityEcommerce.Helpers.Enums;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+@{
+
+    var userID = UserManager.GetUserId(@User);
+    var currentUser = UserManager.FindByIdAsync(userID).Result;
+}
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">IdentityEcommerce</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
+            <!-- Begin Header Top Area -->
+            <div class="header-top">
+                <div class="container">
+                    <div class="row">
+                        <!-- Begin Header Top Left Area -->
+                        <div class="col-lg-3 col-md-4">
+                            <div class="header-top-left">
+                                <ul class="phone-wrap">
+                                    <!-- <li><span>Telephone Enquiry:</span><a href="#">(+123) 123 321 345</a></li> -->
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Header Top Left Area End Here -->
+                        <!-- Begin Header Top Right Area -->
+                        <div class="col-lg-9 col-md-8">
+                            <div class="header-top-right">
+                                <ul class="ht-menu">
+                                    <!-- Begin Setting Area -->
+                                    <li>
+                                        <div class="ht-setting-trigger"><span>Setting</span></div>
+                                        <div class="setting ht-setting">
+                                            <ul class="ht-setting-list">
+                                                <li><a asp-action="Activity" asp-controller="Transaction">Activity</a></li>
+
+                                                <li><a asp-action="Update" asp-controller="AppUser">Profile & Visibility</a></li>
+                                                @{
+                                                    if (!@Model.CurrentUser.HasCreditCard)
+                                                    {
+                                                        <li><a asp-action="Create" asp-controller="CreditCard">Add Credit Card</a></li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li><a asp-action="Update" asp-controller="CreditCard">Edit Credit Card</a></li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <!-- Setting Area End Here -->
+                                    <!-- Begin Currency Area -->
+                                    <li>
+                                        <span class="currency-selector-wrapper">Currency :</span>
+                                        <div class="ht-currency-trigger"><span>USD $</span></div>
+                                    </li>
+                                    <!-- Currency Area End Here -->
+                                    <!-- Begin Language Area -->
+                                    <li>
+                                        <span class="language-selector-wrapper">Language :</span>
+                                        <div class="ht-language-trigger"><span>English</span></div>
+                                    </li>
+                                    <!-- Language Area End Here -->
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Header Top Right Area End Here -->
+                    </div>
                 </div>
             </div>
-        </nav>
+            <!-- Header Top Area End Here -->
+            <!-- Begin Header Middle Area -->
+            <div class="header-middle pl-sm-0 pr-sm-0 pl-xs-0 pr-xs-0">
+                <div class="container">
+                    <div class="row">
+                        <!-- Begin Header Logo Area -->
+                        <div class="col-lg-3">
+                            <div class="logo pb-sm-30 pb-xs-30">
+                                <a  >
+                                <img style="z-index: -1;position: absolute;margin-bottom: ;width: 207px;bottom: -74px;" src="/SiteImg/logo1.png" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Header Logo Area End Here -->
+                        <!-- Begin Header Middle Right Area -->
+                        <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
+                            <!-- Begin Header Middle Searchbox Area -->
+                            <form action="#" class="hm-searchbox">
+
+                                <input type="text" placeholder="Enter your search key ...">
+                                <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+                            <!-- Header Middle Searchbox Area End Here -->
+                            <!-- Begin Header Middle Right Area -->
+                            <div class="header-middle-right">
+                                <ul class="hm-menu">
+                                    <!-- Header Middle Wishlist Area End Here -->
+                                    <!-- Begin Header Mini Cart Area -->
+                                    <li class="hm-minicart">
+                                        <div class="hm-minicart-trigger">
+                                            <span class="item-icon"></span>
+                                            <span class="item-text">
+                                                @Model.CurrentUser.MyRewardPoints
+                                            </span>
+                                        </div>
+                                        <span></span>
+                                    </li>
+                                    <!-- Header Mini Cart Area End Here -->
+                                </ul>
+                            </div>
+                            <!-- Header Middle Right Area End Here -->
+                        </div>
+                        <!-- Header Middle Right Area End Here -->
+                    </div>
+                </div>
+            </div>
+            <!-- Header Middle Area End Here -->
+            <!-- Begin Header Bottom Area -->
+            <div class="header-bottom mb-0 header-sticky stick d-none d-lg-block d-xl-block">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- Begin Header Bottom Menu Area -->
+                            <div class="hb-menu">
+                                <nav>
+                                    <ul>
+                                    <li href="@Url.Action("Index", "Product") class="dropdown-holder">
+                                            <a href="@Url.Action("Index", "Product")">Home</a>
+                                        </li>
+                                        <li class="catmenu-dropdown megamenu-holder">
+                                            <a>More</a>
+                                            <ul class="megamenu hb-megamenu">
+                                                <li>
+                                                    <a>Companies</a>
+                                                    <ul>
+                                                        @foreach (var item in Model.Companies)
+                                                        {
+                                                            <li> <a href="@Url.Action("Index", "Product",new { categoryId = item.CompanyID } )"> @item.Name </a></li>
+                                                        }
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <a href="single-product-gallery-left.html">Categories</a>
+                                                    <ul>
+                                                        @foreach (var item in Model.Categories)
+                                                        {
+                                                            <li> <a href="@Url.Action("Index", "Product",new { categoryId = item.ID } )"> @item.Name </a></li>
+                                                        }
+                                                    </ul>
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                        <li class="catmenu-dropdown megamenu-holder">
+                                            <a>Settings</a>
+                                            <ul class="megamenu hb-megamenu">
+                                                <li>
+                                                    <a>Personal</a>
+                                                    <ul>
+                                                        <li><a asp-action="Activity" asp-controller="Transaction">Activity</a></li>
+                                                        <li><a asp-action="Index" asp-controller="Refund">Refunds</a></li>
+
+                                                        <li><a asp-action="Update" asp-controller="AppUser">Profile & Visibility</a></li>
+                                                        @{
+                                                            if (!@Model.CurrentUser.HasCreditCard)
+                                                            {
+                                                                <li><a asp-action="Create" asp-controller="CreditCard">Add Credit Card</a></li>
+                                                            }
+                                                            else
+                                                            {
+                                                                <li><a asp-action="Update" asp-controller="CreditCard">Edit Credit Card</a></li>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                </li>
+
+
+                                            </ul>
+                                        </li>
+                                        <li class="catmenu-dropdown megamenu-holder">
+                                        @{
+                                            @if (@User.IsInRole(AppRoleEnum.SuperUser.ToString()))
+                                            {
+                                                <a>Admin</a>
+                                                <ul class="megamenu hb-megamenu">
+                                                    <li>
+                                                        <a>Actions</a>
+                                                        <ul>
+                                                    
+                                                                    <li>
+                                                                        <a asp-controller="Company" asp-action="RegisterAdmin">Register Admin</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a asp-controller="Coupon" asp-action="Create">Create Coupon</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a asp-action="Create" asp-controller="Product">Add Product</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a asp-action="UpdateCompanyProducts" asp-controller="Product" asp-route-companyID="@currentUser.AssignedCompanyId">Company Products</a>
+                                                                    </li>
+                                                                        <li>
+                                                                        <a asp-action="Archived" asp-controller="Product" asp-route-companyID="@currentUser.AssignedCompanyId">Archived Company Products</a>
+                                                                    </li>
+                                                           
+                                                       
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            }
+                                         }
+                                    </li>
+                                        <li class="catmenu-dropdown megamenu-holder" style="float: right;">
+                                            <a>Hello @currentUser.UserName!</a>
+                                            <ul class="megamenu hb-megamenu">
+                                                <li>
+                                                    <a>Actions</a>
+                                                    <ul>
+                                                        @{
+                                                            @if (SignInManager.IsSignedIn(User))
+                                                            {
+
+                                                                <li>
+                                                                    <a href="@Url.Action("Logout","AppUser")" style="cursor: pointer;">Logout</a>
+                                                                </li>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!-- Header Bottom Menu Area End Here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Header Bottom Area End Here -->
+            <!-- Begin Mobile Menu Area -->
+            <div class="mobile-menu-area d-lg-none d-xl-none col-12">
+                <div class="container">
+                    <div class="row">
+                        <div class="mobile-menu">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Menu Area End Here -->
+        <!-- Header Area End Here -->
+        <!-- Begin Li's Breadcrumb Area -->
+        <div class="breadcrumb-area">
+            <div class="container">
+                <div class="breadcrumb-content">
+                    <ul>
+                        <li><a href="@Url.Action("Index", "Product")">Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </header>
-    <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-    </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">

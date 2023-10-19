@@ -63,7 +63,7 @@ namespace IdentityEcommerce.Controllers
             bool createdTransaction = _transactionService.Create(transaction);
             if (createdTransaction)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Product");
             }
             return View(transaction);
         }

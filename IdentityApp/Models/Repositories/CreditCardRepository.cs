@@ -43,7 +43,6 @@ namespace IdentityApp.Models.Repositories
             }
             catch (System.Exception)
             {
-
                 return false;
             }
         }

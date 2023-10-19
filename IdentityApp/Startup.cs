@@ -37,7 +37,6 @@ namespace IdentityEcommerce
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-
             services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
@@ -58,6 +57,9 @@ namespace IdentityEcommerce
             services.AddTransient<CreditCardService>();
             services.AddTransient<CouponRepository>();
             services.AddTransient<CouponService>();
+
+            services.AddRazorPages()
+    .AddRazorRuntimeCompilation();
 
         }
 

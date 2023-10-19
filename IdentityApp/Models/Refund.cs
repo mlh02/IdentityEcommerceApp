@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using IdentityEcommerce.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IdentityApp.Models
@@ -9,14 +10,21 @@ namespace IdentityApp.Models
         public int ID { get; set; }
 
         [ForeignKey("AspNetUsers")]
-        public int UserID { get; set; }
+        public int UserId { get; set; }
+        [NotMapped]
+        public virtual AppUser CurrentUser { get; set; }
 
         [ForeignKey("Products")]
         public int ProductID { get; set; }
-        
+        [NotMapped]
+        public virtual Product CurrentProducts { get; set; }
+        [ForeignKey("Transaction")]
+        public int TransactionId { get; set; }
+
         public double TransactionTotal { get; set; }
         public string SpecificReason { get; set; }
         public string Notes { get; set; }
+        public string Status { get; set; }
 
     }
 }

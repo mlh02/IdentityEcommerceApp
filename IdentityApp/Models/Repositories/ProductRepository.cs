@@ -1,6 +1,7 @@
-﻿using IdentityApp.Migrations;
-using IdentityApp.Models.Repositories;
+﻿using IdentityApp.Models.Repositories;
+using IdentityApp.Models.ViewModels;
 using IdentityEcommerce.Data;
+using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,22 +31,61 @@ namespace IdentityEcommerce.Models.Repositories
                 return false;
             }
         }
-
+        public IEnumerable<Product> GetAllProductsArchived()
+        {
+            var products = _context.Products
+                    .Include(x => x.Category)
+                        .Include(x => x.Company)
+                          .Where(x =>  x.Archived)
+                             .ToList();
+            return products;
+        }
         public IEnumerable<Product> GetAllProducts()
         {
-            var products = _context.Products.ToList();
+            var products = _context.Products
+                    .Include(x => x.Category)
+                        .Include(x => x.Company)
+                          .Where(x => !x.Archived)
+                             .ToList();
             return products;
+        }
+        public ProductIndexViewModel GetIndexViewModel(int categoryId, int companyId)
+        {
+            ProductIndexViewModel pac = new ProductIndexViewModel();
+            pac.Categories = _context.Categories.ToList();
+            pac.Companies = _context.Companies.ToList();
+            if(categoryId == 0 && companyId == 0)
+            {
+                pac.Products = _context.Products.Where(x =>   x.Archived == false).ToList();
+            }
+            if (categoryId != 0 && companyId == 0)
+            {
+                pac.Products = _context.Products.Where(x => x.CategoryID == categoryId && x.Archived == false).ToList();
+
+            }
+            if (categoryId == 0 && companyId != 0)
+            {
+                pac.Products = _context.Products.Where(x => x.CompanyID == companyId && x.Archived == false).ToList();
+
+            }
+            pac.Reviews = _context.Reviews.ToList();
+            return pac;
         }
 
         public Product GetProductByID(int productID)
         {
-            var currentProduct = _context.Products.SingleOrDefault(x => x.ProductID == productID);
+            var currentProduct = _context.Products
+                .Include(x => x.Company)
+                   .Include(x => x.Category)
+                        .SingleOrDefault(x => x.ProductID == productID);
             return currentProduct;
         }
 
         public List<Review> GetReviewsOfSpecificProduct(int productID)
         {
-            var reviews = _context.Reviews.Where(x => x.ProductID == productID).ToList();
+            var reviews = _context.Reviews
+                    .Include(x => x.AppUser)
+                        .Where(x => x.ProductID == productID).ToList();
             return reviews;
         }
 
@@ -57,7 +97,9 @@ namespace IdentityEcommerce.Models.Repositories
 
         public List<Comment> GetCommentForProductReview(int productID)
         {
-            var specificComment = _context.Comments.Where(x => x.ProductID == productID).ToList();
+            var specificComment = _context.Comments
+                        .Where(x => x.ProductID == productID).ToList();
+            
             return specificComment;
         }
 
@@ -95,6 +137,12 @@ namespace IdentityEcommerce.Models.Repositories
             var dislikes = _context.Dislikes.ToList();
             return dislikes;
         }
+        public List<Company> GetAllCompanies()
+        {
+            var companies = _context.Companies.ToList();
+            return companies;
+        }
+
 
         public bool Update(Product product)
         {

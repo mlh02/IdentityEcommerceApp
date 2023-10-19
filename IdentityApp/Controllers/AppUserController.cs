@@ -1,4 +1,5 @@
-﻿using IdentityEcommerce.Helpers.Enums;
+﻿using IdentityApp.Models.ViewModels;
+using IdentityEcommerce.Helpers.Enums;
 using IdentityEcommerce.Models;
 using IdentityEcommerce.Models.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -32,9 +33,10 @@ namespace IdentityEcommerce.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Register(AppUser appUser)
+        public async Task<IActionResult> Register(LoginLogoutViewModel llvm)
         {
-
+            AppUser appUser = llvm.AppUser;
+            appUser.ProfilePicture = "https://e0.pxfuel.com/wallpapers/771/37/desktop-wallpaper-default-baseball-cap-pfp-cute-instagram-fitted-hats-icon-thumbnail.jpg";
             var role = AppRoleEnum.User.ToString();
             // this is when we send the user over and have it validated and stored in DB
             var userRegister = await _userManager.CreateAsync(appUser);
@@ -50,8 +52,9 @@ namespace IdentityEcommerce.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(AppLogin appLogin)
+        public async Task<IActionResult> Login(LoginLogoutViewModel llvm)
         {
+            AppLogin appLogin = llvm.AppLogin;
             AppUser user = await _userManager.FindByNameAsync(appLogin.Username);
             if(user.Password == appLogin.Password)
             {
@@ -87,7 +90,7 @@ namespace IdentityEcommerce.Controllers
             var currentUser = GetCurrentUser();
             var mappedUser = MapUserUpdates(user, currentUser);
             var updatedUser = await _userManager.UpdateAsync(mappedUser);
-            return RedirectToAction("Settings", "AppUser");
+            return RedirectToAction("Update", "AppUser");
 
         }
 

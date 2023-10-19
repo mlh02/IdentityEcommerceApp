@@ -1,5 +1,4 @@
-﻿using IdentityApp.Migrations;
-using IdentityApp.Models.Repositories;
+﻿using IdentityApp.Models.Repositories;
 using IdentityApp.Models.ViewModels;
 using IdentityEcommerce.Helpers.Enums;
 using IdentityEcommerce.Models;
@@ -26,12 +25,19 @@ namespace IdentityEcommerce.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int categoryId = 0, int companyId = 0)
         {
-            if (User.IsInRole(AppRoleEnum.User.ToString()) || User.IsInRole(AppRoleEnum.SuperUser.ToString()))
+            if ( (User.IsInRole(AppRoleEnum.User.ToString()) || User.IsInRole(AppRoleEnum.SuperUser.ToString())) && categoryId == 0 && companyId == 0 )
             {
-                var allProducts = _productService.GetAllProducts();
-                return View(allProducts);
+                var viewModel = _productService.GetIndexViewModel(categoryId, companyId);
+                viewModel.CurrentUser = GetCurrentUser();
+                return View(viewModel);
+            }
+            if ((User.IsInRole(AppRoleEnum.User.ToString()) || User.IsInRole(AppRoleEnum.SuperUser.ToString())) && categoryId != 0 || companyId != 0)
+            {
+                var viewModel = _productService.GetIndexViewModel(categoryId, companyId);
+                viewModel.CurrentUser = GetCurrentUser();
+                return View(viewModel);
             }
             return RedirectToAction("Login", "AppUser");
 
@@ -49,6 +55,8 @@ namespace IdentityEcommerce.Controllers
         public IActionResult Create(Product product)
         {
             product.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            product.CompanyID =  Int32.Parse(GetCurrentUser().AssignedCompanyId);
+            
             bool createdProduct = _productService.Create(product);
             if (createdProduct)
             {
@@ -60,11 +68,24 @@ namespace IdentityEcommerce.Controllers
         public IActionResult Details(int productID)
         {
             var prvm = new ProductAndReviewViewModel();
+            prvm.Companies = _productService.GetAllCompanies();
+            prvm.Categories = _productService.GetAllCategories();
             prvm.Product = _productService.GetProductByID(productID);
             prvm.Reviews = _productService.GetReviewsOfSpecificProduct(productID);
+
+            foreach (var item in prvm.Reviews)
+            {
+                item.AppUser = _userManager.Users.FirstOrDefault(x => x.Id == item.UserId);
+            }
+          
             prvm.CommentsForReviews = _productService.GetCommentForProductReview(productID);
+            foreach (var item in prvm.CommentsForReviews)
+            {
+                item.AppUser = _userManager.Users.FirstOrDefault(x => x.Id == item.UserId);
+            }
             prvm.Dislikes = _productService.GetAllDislikes();
             prvm.Likes = _productService.GetAllLikes();
+            prvm.CurrentUser = GetCurrentUser();
             return View(prvm);
         }
 
@@ -101,7 +122,9 @@ namespace IdentityEcommerce.Controllers
         [HttpGet]
         public IActionResult Update(int productID)
         {
+         
             var product = _productService.GetProductByID(productID);
+            product.CompanyID = Int32.Parse(GetCurrentUser().AssignedCompanyId);
             var pcvm = new ProductAndCategoryViewModel();
             pcvm.Product = product;
             pcvm.Categories = _productService.GetAllCategories();
@@ -124,7 +147,23 @@ namespace IdentityEcommerce.Controllers
             var productsFromCompany = _productService.GetProductsByCompanyID(Convert.ToInt32(companyID));
             return View(productsFromCompany);
         }
+        public IActionResult Archived(string companyID)
+        {
+            var productsFromCompany = _productService.GetProductsArchivedByCompanyID(Convert.ToInt32(companyID));
+            return View(productsFromCompany);
+        }
 
+        public IActionResult UnArchiveProduct(int productID)
+        {
+            var product = _productService.GetProductByID(productID);
+            product.Archived = false ;
+            var updatedProduct = _productService.Update(product);
+            if (updatedProduct)
+            {
+                return RedirectToAction("Archived", "Product", new { companyID = product.CompanyID });
+            }
+                return RedirectToAction("Archived", "Product", new { companyID = product.CompanyID });
+        }
         public IActionResult ArchiveProduct(int productID)
         {
             var product = _productService.GetProductByID(productID);
@@ -135,6 +174,12 @@ namespace IdentityEcommerce.Controllers
                 return RedirectToAction("UpdateCompanyProducts", "Product", new {companyID = product.CompanyID});
             }
             return View();
+        }
+        public AppUser GetCurrentUser()
+        {
+            var userID = _userManager.GetUserId(HttpContext.User);
+            var user = _userManager.FindByIdAsync(userID).Result;
+            return user;
         }
     }
 }
